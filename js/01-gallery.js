@@ -10,7 +10,7 @@ const refs = {
 const galleryMarkup = ({ preview, original, description }) => {
   return `
   <div class="gallery__item">
-  <a class="gallery__link" href="large-image.jpg">
+  <a class="gallery__link" href= '${original}'"large-image.jpg">
     <img
       class="gallery__image"
       src= '${preview}' "gallery__image"
@@ -30,32 +30,28 @@ const render = () => {
 const onPictureClick = (event) => {
   event.preventDefault();
 
-  if (event.target === event.currentTarget) return;
+  if (!event.target.classList.contains("gallery__image")) return;
 
-  // const instance = basicLightbox.create(
-  //   `<img src= '${event.target.dataset.source}' width="800" height="600">`,
+  window.instance = basicLightbox.create(
+    `<img src= '${event.target.dataset.source}' width="800" height="600">`,
 
-  //   {
-  //     onShow: () => {
-  //       window.addEventListener("keydown", onEscClose);
-  //     },
-  //     onClose: () => {
-  //       window.removeEventListener("keydown", onEscClose);
-  //     },
-  //   }
-  // );
-  // return instance;
-
-  const instance = basicLightbox.create(
-    `<img src= '${event.target.dataset.source}' width="800" height="600">`
+    {
+      onShow: () => {
+        window.addEventListener("keydown", onEscClose);
+      },
+      onClose: () => {
+        window.removeEventListener("keydown", onEscClose);
+      },
+    }
   );
 
   instance.show();
 };
 
 const onEscClose = (event) => {
+  console.log(event);
   if (event.code === "Escape") {
-    return;
+    instance.close();
   }
 };
 
